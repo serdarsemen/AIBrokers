@@ -34,6 +34,8 @@ By using this software, you agree to use it solely for learning purposes.
 
 Clone the repository:
 ```bash
+git clone https://github.com/AI-Brokers/AIBrokers0.0.1.git
+
 
 ```
 
@@ -95,7 +97,7 @@ Date         Crypto Action Quantity    Price         Cash    colatteralLong coll
 You can optionally specify the start and end dates to backtest over a specific time period.
 
 ```bash
-poetry run python src/backtester.py --ticker BTC --start-date 2024-01-01 --end-date 2024-03-01
+poetry run python src/backtester.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01
 ```
 
 ## Project Structure 
