@@ -14,30 +14,22 @@ def risk_management_agent(state: AgentState):
     portfolio = state["data"]["portfolio"]
     cash = portfolio['cash']
     data = state["data"]
-    max_loss = 0.05
+    max_loss = 0.05 #Loss maximum for the fund
     prices_df = data["prices"]
 
     # Fetch messages from other agents
     technical_message = next(msg for msg in state["messages"] if msg.name == "technical_analyst_agent")
-    # fundamentals_message = next(msg for msg in state["messages"] if msg.name == "fundamentals_agent")
     sentiment_message = next(msg for msg in state["messages"] if msg.name == "sentiment_agent")
-    # valuation_message = next(msg for msg in state["messages"] if msg.name == "valuation_agent")
     try:
-        # fundamental_signals = json.loads(fundamentals_message.content)
         technical_signals = json.loads(technical_message.content)
         sentiment_signals = json.loads(sentiment_message.content)
-        # valuation_signals = json.loads(valuation_message.content)
     except Exception as e:
-        # fundamental_signals = ast.literal_eval(fundamentals_message.content)
         technical_signals = ast.literal_eval(technical_message.content)
         sentiment_signals = ast.literal_eval(sentiment_message.content)
-        # valuation_signals = ast.literal_eval(valuation_message.content)
         
     agent_signals = {
-        # "fundamental": fundamental_signals,
         "technical": technical_signals,
         "sentiment": sentiment_signals,
-        # "valuation": valuation_signals
     }
 
     # 1. Calculate volatility
@@ -56,10 +48,6 @@ def risk_management_agent(state: AgentState):
     
     #3. Stop loss, Price Stop Loss
     stop_loss = "{:.2%}".format(volatility)
-
-    # price_sl = prices_df['close'].iloc[-1]*(1-volatility)
-
-
 
 
 

@@ -21,9 +21,7 @@ def portfolio_management_agent(state: AgentState):
 
     # Get the technical analyst, fundamentals agent, and risk management agent messages
     technical_message = next(msg for msg in state["messages"] if msg.name == "technical_analyst_agent")
-    # fundamentals_message = next(msg for msg in state["messages"] if msg.name == "fundamentals_agent")
     sentiment_message = next(msg for msg in state["messages"] if msg.name == "sentiment_agent")
-    # valuation_message = next(msg for msg in state["messages"] if msg.name == "valuation_agent")
     risk_message = next(msg for msg in state["messages"] if msg.name == "risk_management_agent")
 
     # Create the prompt template
@@ -92,9 +90,7 @@ def portfolio_management_agent(state: AgentState):
     prompt = template.invoke(
         {
             "technical_message": technical_message.content, 
-            # "fundamentals_message": fundamentals_message.content,
             "sentiment_message": sentiment_message.content,
-            # "valuation_message": valuation_message.content,
             "risk_message": risk_message.content,
             "portfolio_cash": f"{portfolio['cash']:.2f}",
         }
