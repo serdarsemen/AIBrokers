@@ -69,7 +69,7 @@ class Backtester:
         dates = pd.date_range(self.start_date, self.end_date, freq="B")
 
         print("\nStarting backtest...")
-        print(f"{'Date':<12} {'Crypto':<6} {'Action':<6} {'Quantity':>8} {'Price':>8} {'Cash':>12} {'collateral_long':>8} {'collateral_short':>8} {'Total Value':>12}")
+        print(f"{'Date':<12} {'Crypto':<6} {'Action':<6} {'Quantity':>8} {'Price':>8} {'Cash':>12} {'Collateral long':>8} {'Collateral short':>8} {'Total Value':>12}")
         print("-" * 100)
 
         for current_date in dates:

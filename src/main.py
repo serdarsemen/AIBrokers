@@ -1,7 +1,7 @@
 from langchain_core.messages import HumanMessage
 from langgraph.graph import END, StateGraph
 
-from agents.market_data import market_data_agent
+from agents.market_data import market_data_agent, check_data_valid
 from agents.portfolio_manager import portfolio_management_agent
 from agents.technicals import technical_analyst_agent
 from agents.risk_manager import risk_management_agent
@@ -12,28 +12,35 @@ import argparse
 from datetime import datetime
 
 
+
+
+
 ##### Run the AIBrokers #####
 def run_hedge_fund(crypto: str, start_date: str, end_date: str, portfolio: dict, show_reasoning: bool = False):
-    final_state = app.invoke(
-        {
-            "messages": [
-                HumanMessage(
-                    content="Make a trading decision based on the provided data.",
-                )
-            ],
-            "data": {
-                "crypto": crypto,
-                "portfolio": portfolio,
-                "start_date": start_date,
-                "end_date": end_date,
-                "analyst_signals": {},
+    valid = check_data_valid(crypto,start_date, end_date)
+    if valid:
+        final_state = app.invoke(
+            {
+                "messages": [
+                    HumanMessage(
+                        content="Make a trading decision based on the provided data.",
+                    )
+                ],
+                "data": {
+                    "crypto": crypto,
+                    "portfolio": portfolio,
+                    "start_date": start_date,
+                    "end_date": end_date,
+                    "analyst_signals": {},
+                },
+                "metadata": {
+                    "show_reasoning": show_reasoning,
+                }
             },
-            "metadata": {
-                "show_reasoning": show_reasoning,
-            }
-        },
-    )
-    return final_state["messages"][-1].content
+        )
+        return final_state["messages"][-1].content
+    else:
+        return "Cant Run AI"
 
 # Define the new workflow
 workflow = StateGraph(AgentState)

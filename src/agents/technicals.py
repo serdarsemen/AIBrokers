@@ -25,6 +25,7 @@ def technical_analyst_agent(state: AgentState):
     data = state["data"]
     prices_df = data["prices"]
     
+    
     # Calculate indicators
     # 1. MACD (Moving Average Convergence Divergence)
     macd_line, signal_line = calculate_macd(prices_df)
