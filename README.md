@@ -4,6 +4,9 @@ The first real-world AI hedge fund framework in crypto, fully open source!
 AIBrokers is a framework designed to create multi AI agents for managing hedge funds. These AI agents act as professional traders, operating 24/7 to manage investments for their owners. My vision and aspiration are that, with unlimited contributions from the community, AIBrokers can outperform hedge funds, whales, and market makers in the future. AIBrokers is open source and welcomes contributions from anyone.
 
 
+<img width="1060" alt="Screenshot 2025-01-03 at 5 39 25 PM" src="https://github.com/user-attachments/assets/9070ed76-7156-4b65-a3a5-079b605f3110" />
+
+
 This system employs several agents working together:
 - Trader Behavior Agent: Gather on-chain trader behavior, traders actions, etc.
 - Quant Agent: calculates signals like MACD, RSI, Bollinger Bands, etc.
