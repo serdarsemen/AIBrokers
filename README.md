@@ -27,7 +27,7 @@ Note: the system simulates trading decisions, it does not actually trade.
 
 Clone the repository:
 ```bash
-git clone https://github.com/AI-Brokers/AIBrokers0.0.1.git
+git clone https://github.com/AI-Brokers/AIBrokers.git
 
 
 ```
