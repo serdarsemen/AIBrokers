@@ -89,9 +89,7 @@ class Backtester:
             )
             
 
-            action, quantity = self.parse_action(agent_output)
-            
-            
+            action, quantity = self.parse_action(agent_output)           
 
             
 
