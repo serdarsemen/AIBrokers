@@ -57,6 +57,8 @@ export OPENAI_API_KEY='your-api-key-here' # Get a key from https://platform.open
 ```bash
 poetry run python src/main.py --crypto BTC
 ```
+**Example Output:**
+<img width="992" alt="Screenshot 2025-01-06" src="https://github.com/user-attachments/assets/1fb088d8-7924-4c70-9f9b-dfe0d721f161" />
 
 You can also specify a `--show-reasoning` flag to print the reasoning of each agent to the console.
 
