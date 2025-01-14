@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from main import run_hedge_fund
-from tools.api import get_price_API_BINANCE
+from tools.api import get_price_API_HYPERLIQUID
 
 class Backtester:
     def __init__(self, agent, crypto, start_date, end_date, initial_capital):
@@ -34,8 +34,7 @@ class Backtester:
                 collateral  = round(quantity/current_price,2)
                 self.portfolio["collateral_long"] += collateral
                 self.portfolio['cash'] -= quantity
-                self.portfolio["price_collateral"]=current_price
-                
+                self.portfolio["price_collateral"]=current_price         
                 
 
                 
@@ -45,7 +44,7 @@ class Backtester:
             
         elif action == "short" and quantity > 0:
             
-            if (self.portfolio['cash'] > quantity):
+            if (self.portfolio['cash'] >= quantity):
                 collateral  = round(quantity/current_price,2)
                 self.portfolio["collateral_short"] += collateral
                 self.portfolio['cash'] -= quantity
@@ -69,14 +68,15 @@ class Backtester:
         dates = pd.date_range(self.start_date, self.end_date, freq="B")
 
         print("\nStarting backtest...")
-        print(f"{'Date':<12} {'Crypto':<6} {'Action':<6} {'Quantity':>8} {'Price':>8} {'Cash':>12} {'Collateral long':>8} {'Collateral short':>8} {'Total Value':>12}")
-        print("-" * 100)
+        print(f"{'Date':<12} {'Crypto':<10} {'Action':<10} {'Quantity':>8} {'Price': >8} {'Cash':>12} {'Collateral long':>25} {'Collateral short':>25} {'Total Value':>15}")
+
+        print("-" * 135)
 
         for current_date in dates:
             lookback_start = (current_date - timedelta(days=30)).strftime("%Y-%m-%d")
             current_date_str = current_date.strftime("%Y-%m-%d")
             
-            df = get_price_API_BINANCE(self.crypto, lookback_start, current_date_str)
+            df = get_price_API_HYPERLIQUID(self.crypto, lookback_start, current_date_str)
             current_price = df.iloc[-1]['close']
             
             self.sell_collateral(current_price)
@@ -88,9 +88,10 @@ class Backtester:
                 portfolio=self.portfolio
             )
             
+            
 
             action, quantity = self.parse_action(agent_output)           
-
+            
             
 
             # Execute the trade with validation
@@ -107,8 +108,8 @@ class Backtester:
 
             # Log the current state with executed quantity
             print(
-                f"{current_date.strftime('%Y-%m-%d'):<12} {self.crypto:<6} {action:<6} {executed_quantity:>8} {current_price:>8.2f} "
-                f"{self.portfolio['cash']:>12.2f} {self.portfolio['collateral_long']:>8} {self.portfolio['collateral_short']:>8} {total_value:>12.2f}"
+                f"{current_date.strftime('%Y-%m-%d'):<12} {self.crypto:<10} {action:<10} {executed_quantity:>8} {current_price:>8.2f} "
+                f"{self.portfolio['cash']:>12.2f} {self.portfolio['collateral_long']:>25} {self.portfolio['collateral_short']:>25} {total_value:>15.2f}"
             )
 
             # Record the portfolio value

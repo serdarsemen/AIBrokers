@@ -61,8 +61,8 @@ def risk_management_agent(state: AgentState):
             "stop loss" : stop_loss,
 
         },
-        "reasoning": f"Volatility={volatility:.2%} "
-                     f"Max Loss as a percentage of the fund={max_loss:.2%}"
+        "reasoning": f"Volatility={volatility:.2%},  "
+                     f"Max Loss as a percentage of the fund={max_loss:.2%} , "
                      f"Max Loss as cash of the fund={max_loss_cash:.2%}"
                      
     }

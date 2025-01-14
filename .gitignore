@@ -171,4 +171,5 @@ cython_debug/
 .pypirc
 
 #test
-src/agents/test.py
+test.py
+test2.py

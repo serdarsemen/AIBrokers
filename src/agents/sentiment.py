@@ -16,9 +16,11 @@ def sentiment_agent(state: AgentState):
     bullish_signals, bearish_signals = data["insider_trades"]
     show_reasoning = state["metadata"]["show_reasoning"]
 
-
+    bullish_signals = round(bullish_signals)
+    bearish_signals = round(bearish_signals)
     
-    
+    bull_percentage = bullish_signals/(bullish_signals + bearish_signals)
+    bear_percentage = bearish_signals/(bullish_signals + bearish_signals) 
 
 
     # Determine overall signal
@@ -33,7 +35,9 @@ def sentiment_agent(state: AgentState):
         overall_signal = "neutral"
 
     # Calculate confidence level based on the proportion of indicators agreeing
-    confidence = max(bullish_signals, bearish_signals) 
+    
+    
+    confidence = max(bull_percentage, bear_percentage) 
 
     message_content = {
         "signal": overall_signal,
