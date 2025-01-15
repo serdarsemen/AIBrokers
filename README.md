@@ -136,6 +136,124 @@ AIBrokers/
 ---
 - Schema Inspired: https://github.com/virattt/ai-hedge-fund
 
+
+## Challenges/Task
+Here’s a structured **to-do list** to request contributions from the community for the AIBrokers open-source project. It includes both **challenges** and **tasks** to inspire developers to contribute meaningfully:
+
+### **1\. Core System Architecture**
+
+*   **Define and document APIs** for communication between agents (e.g., Trader Behavior Agent ↔ Fund Manager Agent).
+    
+*   **Implement agent orchestration**: Develop a modular framework to coordinate multiple agents effectively.
+    
+*   **Set up a backtesting environment** for simulated trading strategies to validate AI decisions.
+    
+
+### **2\. Trader Behavior Agent**
+
+*   Build a scraper to gather **on-chain trader behavior data** (e.g., wallet actions, trading volume).
+    
+*   Implement **anomaly detection** for unusual trading patterns.
+    
+*   Develop tools for **visualizing trader behavior trends**.
+    
+
+### **3\. Quant Agent**
+
+*   Implement advanced indicators (e.g., **MACD**, **RSI**, **Bollinger Bands**, **Ichimoku Cloud**).
+    
+*   Create a **signal combination engine** for multi-indicator strategies.
+    
+*   Integrate with live and historical price data APIs (e.g., Binance, Kraken).
+    
+
+### **4\. Sentiment Agent**
+
+*   Develop a **social media sentiment analyzer** using NLP (Twitter, Reddit, Telegram, etc.).
+    
+*   Incorporate on-chain data for **community sentiment trends** (e.g., token transfers).
+    
+*   Build a dashboard for **sentiment visualization** with real-time updates.
+    
+
+### **5\. Fundamental Agent**
+
+*   Design a scoring model for evaluating tokenomics (e.g., **inflation rate**, **supply schedule**).
+    
+*   Analyze crypto ecosystems and detect **growth opportunities**.
+    
+*   Build tools for **tracking developer activity** on GitHub and other repositories.
+    
+
+### **6\. Technical Analyst Agent**
+
+*   Develop AI models to predict price trends based on historical chart patterns.
+    
+*   Implement multi-timeframe analysis (e.g., **15m, 1H, daily** charts).
+    
+*   Automate **entry and exit signal generation** based on technical indicators.
+    
+
+### **7\. Risk Manager**
+
+*   Build a module to calculate **portfolio exposure** and suggest optimal rebalancing.
+    
+*   Develop algorithms for **stop-loss and take-profit management**.
+    
+*   Implement a **stress testing** tool for simulating market crashes.
+    
+
+### **8\. Fund Manager Agent**
+
+*   Create a **decision-making engine** to rank and execute agent recommendations.
+    
+*   Develop an order simulation system (e.g., buy/sell orders with slippage considerations).
+    
+*   Allow customizable strategies: e.g., risk tolerance, aggressive vs. conservative.
+    
+
+### **9\. Infrastructure & Scalability**
+
+*   Migrate data pipelines to a scalable **distributed system** (e.g., Kafka, RabbitMQ).
+    
+*   Ensure agent modularity to support **plug-and-play integration**.
+    
+*   Containerize the framework using **Docker** for easy deployment.
+    
+
+### **10\. Community Contributions**
+
+*   Build **detailed contributing guidelines** (e.g., coding standards, testing requirements).
+    
+*   Open a list of **Good First Issues** for new contributors.
+    
+*   Encourage building **plugins or extensions** for specific strategies.
+    
+
+### **11\. Challenges for the Community**
+
+*   How can AI agents detect **manipulated or wash-traded tokens**?
+    
+*   What’s the best way to optimize **multi-agent collaboration** for decision-making?
+    
+*   Can reinforcement learning improve trading strategy performance over time?
+    
+*   How do we handle **low-liquidity markets** effectively?
+    
+
+### **12\. Documentation and Knowledge Sharing**
+
+*   Write **clear documentation** for each agent, its role, and integration process.
+    
+*   Publish examples of **successful backtests** to showcase the system's potential.
+    
+*   Create video tutorials to onboard developers.
+    
+
+By addressing these areas, the project can attract developers of varying skill levels to contribute and grow AIBrokers into a comprehensive framework.
+
+
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
