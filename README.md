@@ -13,7 +13,7 @@ This system employs several agents working together:
 - Sentiment Agent: gathers, analyzes crypto market sentiment from social media, news, and on-chain data to support trading strategies, etc.
 - Fundamental Agent: evaluates crypto projects' tokenomics, on-chain data, market performance, and ecosystem to guide long-term investment decisions, etc.
 - Technical Analyst Agent: analyzes crypto price charts, trends, and indicators to identify trading opportunities and optimize entry/exit points, etc.
-- Rish manager: assesses market volatility, portfolio exposure, and potential risks to minimize losses and optimize risk-reward ratios.
+- Risk manager: assesses market volatility, portfolio exposure, and potential risks to minimize losses and optimize risk-reward ratios.
 - Fund Manager Agent: makes final trading decisions and generates orders, etc.
 
 
@@ -130,7 +130,7 @@ AIBrokers/
 - AI-Powered Copilot Trading Assistant
 ## Community
 - X: https://x.com/aibrokers_xyz
-- Discord: https://discord.gg/fsvxUZJ2
+- Discord: https://discord.gg/zQpKw6eeQu
 - Media Kit: https://drive.google.com/drive/folders/1SKjgkHd0j-iClgCxsuVcYfHyxB-cvqhI?usp=sharing
 
 ---
