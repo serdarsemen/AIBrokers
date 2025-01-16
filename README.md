@@ -35,6 +35,8 @@ git clone https://github.com/AI-Brokers/AIBrokers.git
 1. Install Poetry (if not already installed):
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
+# Or you can do that to skip step 1 and 2
+# pip install -r requirements.txt
 ```
 
 2. Install dependencies:
@@ -56,6 +58,7 @@ export OPENAI_API_KEY='your-api-key-here' # Get a key from https://platform.open
 
 ```bash
 poetry run python src/main.py --crypto BTC
+# Or python src/main.py --crypto BTC
 ```
 **Example Output:**
 <img width="992" alt="Screenshot 2025-01-06" src="https://github.com/user-attachments/assets/f76111a0-6827-41a6-bb06-1444397d4529" />
@@ -64,15 +67,18 @@ You can also specify a `--show-reasoning` flag to print the reasoning of each ag
 
 ```bash
 poetry run python src/main.py --crypto BTC --show-reasoning
+# Or python src/main.py --crypto BTC --show-reasoning
 ```
 You can optionally specify the start and end dates to make decisions for a specific time period.
 
 ```bash
 poetry run python src/main.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01 
+# Or python src/main.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01 
 ```
 You can customize your balances, leverage and risk for each trade for your portfolio
 ```bash
 poetry run python src/main.py --crypto BTC --balance 500000 --leverage 20 --risk 0.01
+# Or python src/main.py --crypto BTC --balance 500000 --leverage 20 --risk 0.01
 ```
 Risk for each trade here is the ratio of total fund that can be lost for each trade.
 Example: Balance 500000 , Risk = 0.01 , that means the max loss for each trade is 5000
@@ -81,6 +87,7 @@ Example: Balance 500000 , Risk = 0.01 , that means the max loss for each trade i
 
 ```bash
 poetry run python src/backtester.py --crypto BTC
+# Or python src/backtester.py --crypto BTC
 ```
 
 **Example Output:**
@@ -99,6 +106,7 @@ You can optionally specify the start and end dates to backtest over a specific t
 
 ```bash
 poetry run python src/backtester.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01
+# Or python src/backtester.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01
 ```
 
 ## Project Structure 
