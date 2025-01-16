@@ -14,29 +14,16 @@ def risk_management_agent(state: AgentState):
     portfolio = state["data"]["portfolio"]
     cash = portfolio['cash']
     data = state["data"]
-    max_loss = 0.05 #Loss maximum for the fund
-    prices_df = data["prices"]
-
-    # Fetch messages from other agents
-    technical_message = next(msg for msg in state["messages"] if msg.name == "technical_analyst_agent")
-    sentiment_message = next(msg for msg in state["messages"] if msg.name == "sentiment_agent")
-    try:
-        technical_signals = json.loads(technical_message.content)
-        sentiment_signals = json.loads(sentiment_message.content)
-    except Exception as e:
-        technical_signals = ast.literal_eval(technical_message.content)
-        sentiment_signals = ast.literal_eval(sentiment_message.content)
-        
-    agent_signals = {
-        "technical": technical_signals,
-        "sentiment": sentiment_signals,
-    }
+    max_loss = portfolio['risk']
+    leverage = portfolio['leverage']
+    prices_df = data["prices"]          
 
     # 1. Calculate volatility
     prices_df['returns'] = prices_df['close'].pct_change()
     prices_df.dropna(inplace=True)
-    volatility = prices_df['returns'].std()  
-    
+    prices_df['volatility_24'] = prices_df['returns'].rolling(window=24).std()
+    volatility = prices_df['volatility_24'].mean()
+
 
 
 
@@ -45,20 +32,18 @@ def risk_management_agent(state: AgentState):
     max_position_size = max_loss_cash / volatility
     if (max_position_size > cash):
         max_position_size = cash
+    max_position_margin  = max_position_size / leverage
     
     #3. Stop loss, Price Stop Loss
-    stop_loss = "{:.2%}".format(volatility)
-
-
-
-
-
-
+    stop_loss = "{:.2%}".format(volatility*leverage)
+    take_profit = stop_loss
+    volatility_f = "{:.2%}".format(volatility)
     message_content = {
-        "max_position_size": float(max_position_size),
+        "max_position_margin": float(max_position_margin),
         "risk_metrics": {
-            "volatility": float(volatility),
+            "volatility": volatility_f,
             "stop loss" : stop_loss,
+            "take profit": take_profit
 
         },
         "reasoning": f"Volatility={volatility:.2%},  "

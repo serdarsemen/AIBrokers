@@ -56,7 +56,9 @@ def portfolio_management_agent(state: AgentState):
                 3. Consider sentiment for final adjustment
                 Provide the following in your output:
                 - "action": "long" | "short" 
+                - "volatility": <volatility from Risk manager>
                 - "stop loss" : <stop loss from Risk Management>
+                - "take profit" : <take profit from Risk Management>
                 - "quantity": <positive integer>
                 - "confidence": <float between 0 and 1>
                 - "agent_signals": <list of agent signals including agent name, signal (bullish | bearish | neutral), and their confidence>
@@ -65,7 +67,7 @@ def portfolio_management_agent(state: AgentState):
                 Trading Rules:
                 - Never exceed risk management position limits
                 - Quantity must be ≤ current position for sells
-                - Quantity must be ≤ max_position_size from risk management"""
+                - Quantity must be ≤ max_position_margin from risk management"""
             ),
             (
                 "human",
@@ -77,9 +79,27 @@ def portfolio_management_agent(state: AgentState):
 
                 Here is the current portfolio:
                 Portfolio:
-                Cash: {portfolio_cash}
-                Only include the action, quantity, stop loss, reasoning, confidence, and agent_signals in your output as response. 
-                Format your response sexiest for user
+                : 
+                | Cash         | {portfolio_cash}     |
+                |---------     |---------|
+                | Leverage     | {portfolio_leverage} | 
+                |---------     |---------|
+                | Risk     | {portfolio_risk} | 
+                
+                Add these points to reasoning: 
+                - Stop Loss and Take profit values based on cryptocurrency volatility and leverage and the leverage
+                - Quantity value based on risk 
+                
+                ALWAYS format them in markdown tables.
+                Table format example:
+                | Column1 | Column2 | Column3 |
+                |---------|---------|---------|
+                | data1   | data2   | data3   |
+
+                Never use bullet points or numbered lists for data presentation.
+                
+                Only include the Portfolio, action, quantity, volatility, stop loss, reasoning, confidence, and agent_signals in your output as response. 
+                Just for reasoning, Use bullet points to separate main ideas
 
                 Remember, the action must be either long, short.
                 """
@@ -94,11 +114,13 @@ def portfolio_management_agent(state: AgentState):
             "sentiment_message": sentiment_message.content,
             "risk_message": risk_message.content,
             "portfolio_cash": f"{portfolio['cash']:.2f}",
+            "portfolio_leverage": f"{portfolio['leverage']:.2f}",
+            "portfolio_risk": f"{portfolio['risk']:.2f}",
         }
     )
     # Invoke the LLM
     llm = ChatOpenAI(
-        openai_api_key=OPENAI_API_KEY, temperature=0.3, model="gpt-4o"
+        openai_api_key=OPENAI_API_KEY, temperature=0.3, model="gpt-4o-mini"
     )
     result = llm.invoke(prompt)
 
