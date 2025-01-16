@@ -65,7 +65,7 @@ class Backtester:
         pass
 
     def run_backtest(self):
-        dates = pd.date_range(self.start_date, self.end_date, freq="B")
+        dates = pd.date_range(self.start_date, self.end_date, freq="D")
 
         print("\nStarting backtest...")
         print(f"{'Date':<12} {'Crypto':<10} {'Action':<10} {'Quantity':>8} {'Price': >8} {'Cash':>12} {'Collateral long':>25} {'Collateral short':>25} {'Total Value':>15}")

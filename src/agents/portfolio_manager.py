@@ -78,7 +78,8 @@ def portfolio_management_agent(state: AgentState):
                 Here is the current portfolio:
                 Portfolio:
                 Cash: {portfolio_cash}
-                Only include the action, quantity, stop loss, reasoning, confidence, and agent_signals in your output as JSON.  Do not include any JSON markdown.
+                Only include the action, quantity, stop loss, reasoning, confidence, and agent_signals in your output as response. 
+                Format your response sexiest for user
 
                 Remember, the action must be either long, short.
                 """
