@@ -20,6 +20,21 @@ def run_hedge_fund(
     portfolio: dict,
     show_reasoning: bool = False,
 ):
+    """Run the AI-powered hedge fund trading system.
+
+    Args:
+        crypto: Symbol of the cryptocurrency to trade
+        start_date: Start date for analysis (YYYY-MM-DD)
+        end_date: End date for analysis (YYYY-MM-DD)
+        portfolio: Dictionary containing portfolio information:
+            - cash: Available capital
+            - leverage: Trading leverage
+            - risk: Risk tolerance per trade
+        show_reasoning: Whether to display agent reasoning
+
+    Returns:
+        str: Trading decision in JSON format containing action and quantity
+    """
     valid = check_data_valid(crypto, start_date, end_date)
     if valid:
         final_state = app.invoke(

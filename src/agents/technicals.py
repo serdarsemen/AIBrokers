@@ -485,6 +485,17 @@ def normalize_pandas(obj):
 
 
 def calculate_macd(prices_df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
+    """
+    Calculate Moving Average Convergence Divergence (MACD) indicator.
+
+    Args:
+        prices_df: DataFrame containing price data with 'close' column
+
+    Returns:
+        tuple: (MACD line, Signal line)
+            - MACD line: Difference between 12-period and 26-period EMAs
+            - Signal line: 9-period EMA of MACD line
+    """
     ema_12 = prices_df["close"].ewm(span=12, adjust=False).mean()
     ema_26 = prices_df["close"].ewm(span=26, adjust=False).mean()
     macd_line = ema_12 - ema_26
@@ -493,6 +504,18 @@ def calculate_macd(prices_df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
 
 
 def calculate_rsi(prices_df: pd.DataFrame, period: int = 14) -> pd.Series:
+    """
+    Calculate Relative Strength Index (RSI) indicator.
+
+    Args:
+        prices_df: DataFrame containing price data with 'close' column
+        period: Number of periods to use for calculation (default: 14)
+
+    Returns:
+        pd.Series: RSI values ranging from 0 to 100
+            - RSI > 70 typically indicates overbought conditions
+            - RSI < 30 typically indicates oversold conditions
+    """
     delta = prices_df["close"].diff()
     gain = (delta.where(delta > 0, 0)).fillna(0)
     loss = (-delta.where(delta < 0, 0)).fillna(0)
@@ -506,6 +529,18 @@ def calculate_rsi(prices_df: pd.DataFrame, period: int = 14) -> pd.Series:
 def calculate_bollinger_bands(
     prices_df: pd.DataFrame, window: int = 20
 ) -> tuple[pd.Series, pd.Series]:
+    """
+    Calculate Bollinger Bands indicator.
+
+    Args:
+        prices_df: DataFrame containing price data with 'close' column
+        window: Number of periods for moving average and standard deviation (default: 20)
+
+    Returns:
+        tuple: (Upper band, Lower band)
+            - Upper band: SMA + (2 * Standard Deviation)
+            - Lower band: SMA - (2 * Standard Deviation)
+    """
     sma = prices_df["close"].rolling(window).mean()
     std_dev = prices_df["close"].rolling(window).std()
     upper_band = sma + (std_dev * 2)
@@ -660,6 +695,18 @@ def calculate_hurst_exponent(price_series: pd.Series, max_lag: int = 20) -> floa
 
 
 def calculate_obv(prices_df: pd.DataFrame) -> pd.Series:
+    """
+    Calculate On-Balance Volume (OBV) indicator.
+
+    OBV adds volume on up days and subtracts volume on down days to measure
+    buying/selling pressure.
+
+    Args:
+        prices_df: DataFrame containing price data with 'close' and 'volume' columns
+
+    Returns:
+        pd.Series: Cumulative OBV values
+    """
     obv = [0]
     for i in range(1, len(prices_df)):
         if prices_df["close"].iloc[i] > prices_df["close"].iloc[i - 1]:

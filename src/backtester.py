@@ -9,6 +9,15 @@ from tools.api import get_price_API_HYPERLIQUID
 
 class Backtester:
     def __init__(self, agent, crypto, start_date, end_date, initial_capital):
+        """Initialize the backtester with trading parameters.
+
+        Args:
+            agent: Trading agent function that makes trading decisions
+            crypto: Symbol of the cryptocurrency to trade
+            start_date: Start date for the backtest (YYYY-MM-DD)
+            end_date: End date for the backtest (YYYY-MM-DD)
+            initial_capital: Initial capital to start trading with
+        """
         self.agent = agent
         self.crypto = crypto
         self.start_date = start_date
@@ -23,6 +32,15 @@ class Backtester:
         self.portfolio_values = []
 
     def parse_action(self, agent_output):
+        """Parse the trading action from the agent's output.
+
+        Args:
+            agent_output: JSON string containing trading decision from agent
+
+        Returns:
+            tuple: (action, quantity) where action is the trading action
+            (long/short/hold) and quantity is the trade size
+        """
         try:
             # Expect JSON output from agent
             import json
@@ -34,6 +52,16 @@ class Backtester:
             return "hold", 0
 
     def execute_trade(self, action, quantity, current_price):
+        """Execute a trade based on the agent's decision and portfolio constraints.
+
+        Args:
+            action: Trading action (long/short/hold)
+            quantity: Size of the trade
+            current_price: Current price of the asset
+
+        Returns:
+            float: Executed quantity after applying portfolio constraints
+        """
         """Validate and execute trades based on portfolio constraints"""
         if action == "long" and quantity > 0:
             if self.portfolio["cash"] >= quantity:
@@ -52,6 +80,11 @@ class Backtester:
         return quantity
 
     def sell_collateral(self, current_price):
+        """Liquidate any existing positions at the current price.
+
+        Args:
+            current_price: Current price of the asset to calculate liquidation value
+        """
         if self.portfolio["collateral_short"] != 0:
             cash_out = self.portfolio["collateral_short"] * (
                 2 * self.portfolio["price_collateral"] - current_price
@@ -66,6 +99,11 @@ class Backtester:
         pass
 
     def run_backtest(self):
+        """Run the backtest simulation over the specified date range.
+
+        Simulates trading day by day, executing the agent's trading decisions
+        and tracking portfolio value.
+        """
         dates = pd.date_range(self.start_date, self.end_date, freq="D")
 
         print("\nStarting backtest...")
@@ -124,6 +162,17 @@ class Backtester:
             )
 
     def analyze_performance(self):
+        """Analyze and display the backtest performance metrics.
+
+        Calculates and displays:
+        - Total return
+        - Portfolio value chart
+        - Sharpe ratio
+        - Maximum drawdown
+
+        Returns:
+            pd.DataFrame: DataFrame containing performance metrics
+        """
         # Convert portfolio values to DataFrame
         performance_df = pd.DataFrame(self.portfolio_values).set_index("Date")
 

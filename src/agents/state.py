@@ -8,6 +8,15 @@ import json
 
 
 def merge_dicts(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
+    """Merges two dictionaries by combining their key-value pairs.
+
+    Args:
+        a (Dict[str, Any]): First dictionary
+        b (Dict[str, Any]): Second dictionary
+
+    Returns:
+        Dict[str, Any]: Combined dictionary with all key-value pairs
+    """
     return {**a, **b}
 
 
@@ -19,6 +28,15 @@ class AgentState(TypedDict):
 
 
 def show_agent_reasoning(output, agent_name):
+    """Displays the reasoning and output of an agent in a formatted way.
+
+    Args:
+        output: The output to display (dict, list, or string)
+        agent_name (str): Name of the agent for display purposes
+
+    Prints:
+        Formatted output of the agent's reasoning and results
+    """
     print(f"\n{'=' * 10} {agent_name.center(28)} {'=' * 10}")
 
     def convert_to_serializable(obj):

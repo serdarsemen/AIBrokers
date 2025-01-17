@@ -7,6 +7,17 @@ from datetime import datetime
 
 
 def check_data_valid(crypto, start_date, end_date):
+    """
+    Validate if market data is available for the given crypto and date range.
+
+    Args:
+        crypto (str): Cryptocurrency symbol
+        start_date (str, optional): Start date in 'YYYY-MM-DD' format. If None, defaults to 1 month before end_date
+        end_date (str, optional): End date in 'YYYY-MM-DD' format. If None, defaults to current date
+
+    Returns:
+        bool: True if both price and insider trade data are available, False otherwise
+    """
     # Set default dates
     end_date = end_date or datetime.now().strftime("%Y-%m-%d")
     if not start_date:
@@ -37,7 +48,31 @@ def check_data_valid(crypto, start_date, end_date):
 
 
 def market_data_agent(state: AgentState):
-    """Responsible for gathering and preprocessing market data"""
+    """
+    Agent responsible for gathering and preprocessing market data.
+
+    This agent:
+    1. Sets up the date range (defaults to last month if not specified)
+    2. Fetches historical price data from HyperLiquid
+    3. Retrieves long/short open interest data from Copin
+
+    Args:
+        state (AgentState): Current state containing:
+            - messages: List of conversation messages
+            - data: Dict containing:
+                - crypto: Cryptocurrency symbol
+                - start_date: Optional start date
+                - end_date: Optional end date
+
+    Returns:
+        dict: Updated state with:
+            - messages: Original messages
+            - data: Original data plus:
+                - prices: Historical OHLCV price data
+                - start_date: Processed start date
+                - end_date: Processed end date
+                - insider_trades: Long/short open interest data
+    """
     messages = state["messages"]
     data = state["data"]
     # Set default dates

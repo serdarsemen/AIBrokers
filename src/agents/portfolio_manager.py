@@ -108,7 +108,7 @@ def portfolio_management_agent(state: AgentState):
                 
                 Only include the Portfolio, action, quantity, volatility, stop loss, reasoning, confidence, and agent_signals in your output as response. 
                 Just for reasoning, Use bullet points to separate main ideas
-
+                Use percentage to represent the confidence
                 Remember, the action must be either long, short.
                 """,
             ),

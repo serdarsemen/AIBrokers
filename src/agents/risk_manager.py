@@ -10,7 +10,22 @@ import ast
 
 ##### Risk Management Agent #####
 def risk_management_agent(state: AgentState):
-    """Evaluates portfolio risk and sets position limits based on comprehensive risk analysis."""
+    """Evaluates portfolio risk and sets position limits based on comprehensive risk analysis.
+
+    Calculates volatility, position size limits, stop loss, and take profit levels
+    based on portfolio state and market conditions.
+
+    Args:
+        state (AgentState): Current agent state containing:
+            - data: Dict with portfolio info and price data
+            - metadata: Dict with show_reasoning flag
+
+    Returns:
+        dict: Updated state with risk management message containing:
+            - max_position_margin: Maximum position size accounting for margin
+            - risk_metrics: Dict with volatility, stop loss, and take profit levels
+            - reasoning: Explanation of risk calculations
+    """
     show_reasoning = state["metadata"]["show_reasoning"]
     portfolio = state["data"]["portfolio"]
     cash = portfolio["cash"]

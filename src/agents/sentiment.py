@@ -11,7 +11,18 @@ import json
 
 ##### Sentiment Agent #####
 def sentiment_agent(state: AgentState):
-    """Analyzes market sentiment and generates trading signals."""
+    """Analyzes market sentiment and generates trading signals based on insider trading data.
+
+    Args:
+        state (AgentState): Current agent state containing:
+            - data: Dict with insider_trades (bullish_signals, bearish_signals)
+            - metadata: Dict with show_reasoning flag
+
+    Returns:
+        dict: Updated state with:
+            - messages: List containing sentiment analysis message
+            - data: Original data dict
+    """
     data = state["data"]
     bullish_signals, bearish_signals = data["insider_trades"]
     show_reasoning = state["metadata"]["show_reasoning"]

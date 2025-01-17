@@ -14,6 +14,15 @@ API_COPIN_OI = os.environ.get("API_COPIN_OI")
 
 
 def date_to_timestamp(date):
+    """
+    Convert a date string or datetime object to millisecond timestamp.
+
+    Args:
+        date (str or datetime): Date in 'YYYY-MM-DD' format or datetime object
+
+    Returns:
+        int: Timestamp in milliseconds
+    """
     if isinstance(date, str):
         date = datetime.strptime(date, "%Y-%m-%d")
     timestamp_seconds = datetime.timestamp(date)
@@ -22,6 +31,23 @@ def date_to_timestamp(date):
 
 
 def get_price_API_HYPERLIQUID(pair, open_time, close_time):
+    """
+    Fetch historical price data from HyperLiquid API.
+
+    Args:
+        pair (str): Trading pair symbol
+        open_time (str or datetime): Start time for data fetch
+        close_time (str or datetime): End time for data fetch
+
+    Returns:
+        pandas.DataFrame: DataFrame containing OHLCV data with columns:
+            - open: Opening price
+            - close: Closing price
+            - high: Highest price
+            - low: Lowest price
+            - volume: Trading volume
+        str: Error message if request fails
+    """
     open_time = date_to_timestamp(open_time)
     close_time = date_to_timestamp(close_time)
     APIURL = HYPERLIQUID_API_URL
@@ -71,7 +97,24 @@ def get_price_API_HYPERLIQUID(pair, open_time, close_time):
 
 
 def get_price_API_BINANCE(pair, open_time, close_time, limit: int = 1000):
-    """Lấy dữ liệu từ API"""
+    """
+    Fetch historical price data from Binance Futures API.
+
+    Args:
+        pair (str): Trading pair symbol
+        open_time (str or datetime): Start time for data fetch
+        close_time (str or datetime): End time for data fetch
+        limit (int, optional): Maximum number of records to return. Defaults to 1000
+
+    Returns:
+        pandas.DataFrame: DataFrame containing OHLCV data with columns:
+            - open: Opening price
+            - close: Closing price
+            - high: Highest price
+            - low: Lowest price
+            - volume: Trading volume
+        str: Error message if request fails
+    """
     open_time = date_to_timestamp(open_time)
     close_time = date_to_timestamp(close_time)
     APIURL = BINANCE_API_URL + "/fapi/v1/continuousKlines"
@@ -118,6 +161,17 @@ def get_price_API_BINANCE(pair, open_time, close_time, limit: int = 1000):
 
 
 def get_OI_position_Copin(pair: str, isLong: bool):
+    """
+    Fetch open interest data for a specific position type from Copin API.
+
+    Args:
+        pair (str): Trading pair symbol (without -USDT suffix)
+        isLong (bool): True for long positions, False for short positions
+
+    Returns:
+        float: Total size of open interest for the specified position type
+        str: Error message if request fails
+    """
     APIURL = API_COPIN_OI
     pair = pair + "-USDT"
     if isLong:
@@ -146,6 +200,16 @@ def get_OI_position_Copin(pair: str, isLong: bool):
 
 
 def get_LS_OI_Copin(pair):
+    """
+    Fetch both long and short open interest data from Copin API.
+
+    Args:
+        pair (str): Trading pair symbol (without -USDT suffix)
+
+    Returns:
+        tuple: (long_oi, short_oi) containing the total open interest for long and short positions
+        str: Error message if request fails
+    """
     longOI = get_OI_position_Copin(pair, True)
     shortOI = get_OI_position_Copin(pair, False)
     if isinstance(longOI, str) | isinstance(shortOI, str):
