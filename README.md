@@ -403,7 +403,8 @@ Here’s a structured **to-do list** to request contributions from the community
 *   Publish examples of **successful backtests** to showcase the system's potential.
     
 *   Create video tutorials to onboard developers.
-    
+
+### **13\. Data Brokers**
 
 By addressing these areas, the project can attract developers of varying skill levels to contribute and grow AIBrokers into a comprehensive framework.
 
