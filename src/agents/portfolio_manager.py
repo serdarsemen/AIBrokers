@@ -1,6 +1,10 @@
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai.chat_models import ChatOpenAI
+from config.analysis_weights import (
+    TECHNICAL_ANALYSIS_WEIGHT,
+    SENTIMENT_ANALYSIS_WEIGHT,
+)
 
 from agents.state import AgentState, show_agent_reasoning
 import os
@@ -29,7 +33,7 @@ def portfolio_management_agent(state: AgentState):
         [
             (
                 "system",
-                """You are a portfolio manager making final trading decisions.
+                f"""You are a portfolio manager making final trading decisions.
                 Your job is to make a trading decision based on the team's analysis while strictly adhering
                 to risk management constraints.
 
@@ -40,13 +44,11 @@ def portfolio_management_agent(state: AgentState):
 
                 When weighing the different signals for direction and timing:
 
-                
-
-                1. Technical Analysis (25% weight)
+                1. Technical Analysis ({TECHNICAL_ANALYSIS_WEIGHT}% weight)
                    - Secondary confirmation
                    - Helps with entry/exit timing
                 
-                2. Sentiment Analysis (10% weight)
+                2. Sentiment Analysis ({SENTIMENT_ANALYSIS_WEIGHT}% weight)
                    - Final consideration
                    - Can influence sizing within risk limits
                 
