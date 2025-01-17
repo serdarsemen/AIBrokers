@@ -1,4 +1,3 @@
-
 from langchain_core.messages import HumanMessage
 
 from agents.state import AgentState, show_agent_reasoning
@@ -9,6 +8,7 @@ import numpy as np
 
 import json
 
+
 ##### Sentiment Agent #####
 def sentiment_agent(state: AgentState):
     """Analyzes market sentiment and generates trading signals."""
@@ -18,15 +18,14 @@ def sentiment_agent(state: AgentState):
 
     bullish_signals = round(bullish_signals)
     bearish_signals = round(bearish_signals)
-    
-    bull_percentage = bullish_signals/(bullish_signals + bearish_signals)
-    bear_percentage = bearish_signals/(bullish_signals + bearish_signals) 
 
+    bull_percentage = bullish_signals / (bullish_signals + bearish_signals)
+    bear_percentage = bearish_signals / (bullish_signals + bearish_signals)
 
     # Determine overall signal
-    
-    LSRatio = bullish_signals/ bearish_signals 
-    
+
+    LSRatio = bullish_signals / bearish_signals
+
     if LSRatio > 1:
         overall_signal = "bullish"
     elif LSRatio < 1:
@@ -35,14 +34,13 @@ def sentiment_agent(state: AgentState):
         overall_signal = "neutral"
 
     # Calculate confidence level based on the proportion of indicators agreeing
-    
-    
-    confidence = max(bull_percentage, bear_percentage) 
+
+    confidence = max(bull_percentage, bear_percentage)
 
     message_content = {
         "signal": overall_signal,
         "confidence": f"{round(confidence * 100)}%",
-        "reasoning": f"Bullish signals: {bullish_signals}, Bearish signals: {bearish_signals}"
+        "reasoning": f"Bullish signals: {bullish_signals}, Bearish signals: {bearish_signals}",
     }
 
     # Print the reasoning if the flag is set

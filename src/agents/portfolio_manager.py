@@ -10,11 +10,11 @@ from agents.state import AgentState, show_agent_reasoning
 import os
 from dotenv import load_dotenv
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '../../.env')
+dotenv_path = os.path.join(os.path.dirname(__file__), "../../.env")
 
 load_dotenv(dotenv_path)
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 ##### Portfolio Management Agent #####
@@ -24,9 +24,15 @@ def portfolio_management_agent(state: AgentState):
     portfolio = state["data"]["portfolio"]
 
     # Get the technical analyst, fundamentals agent, and risk management agent messages
-    technical_message = next(msg for msg in state["messages"] if msg.name == "technical_analyst_agent")
-    sentiment_message = next(msg for msg in state["messages"] if msg.name == "sentiment_agent")
-    risk_message = next(msg for msg in state["messages"] if msg.name == "risk_management_agent")
+    technical_message = next(
+        msg for msg in state["messages"] if msg.name == "technical_analyst_agent"
+    )
+    sentiment_message = next(
+        msg for msg in state["messages"] if msg.name == "sentiment_agent"
+    )
+    risk_message = next(
+        msg for msg in state["messages"] if msg.name == "risk_management_agent"
+    )
 
     # Create the prompt template
     template = ChatPromptTemplate.from_messages(
@@ -69,7 +75,7 @@ def portfolio_management_agent(state: AgentState):
                 Trading Rules:
                 - Never exceed risk management position limits
                 - Quantity must be ≤ current position for sells
-                - Quantity must be ≤ max_position_margin from risk management"""
+                - Quantity must be ≤ max_position_margin from risk management""",
             ),
             (
                 "human",
@@ -104,7 +110,7 @@ def portfolio_management_agent(state: AgentState):
                 Just for reasoning, Use bullet points to separate main ideas
 
                 Remember, the action must be either long, short.
-                """
+                """,
             ),
         ]
     )
@@ -112,7 +118,7 @@ def portfolio_management_agent(state: AgentState):
     # Generate the prompt
     prompt = template.invoke(
         {
-            "technical_message": technical_message.content, 
+            "technical_message": technical_message.content,
             "sentiment_message": sentiment_message.content,
             "risk_message": risk_message.content,
             "portfolio_cash": f"{portfolio['cash']:.2f}",
@@ -137,5 +143,3 @@ def portfolio_management_agent(state: AgentState):
         show_agent_reasoning(message.content, "Portfolio Management Agent")
 
     return {"messages": state["messages"] + [message]}
-
-
