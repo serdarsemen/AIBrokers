@@ -244,6 +244,17 @@ poetry run python src/backtester.py --crypto BTC --start-date 2024-01-01 --end-d
 # Or python src/backtester.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01
 ```
 
+## Configuration
+
+### Analysis Weights
+
+You can customize the weights of different analysis components in the portfolio management decision-making process. These weights are defined in `src/config/analysis_weights.py`:
+
+- `TECHNICAL_ANALYSIS_WEIGHT`: Weight given to technical analysis (default: 25%)
+- `SENTIMENT_ANALYSIS_WEIGHT`: Weight given to sentiment analysis (default: 10%)
+
+To modify these weights, simply update the values in the configuration file according to your trading strategy preferences.
+
 ## Project Structure
 
 ```
@@ -278,15 +289,7 @@ AIBrokers/
 - The Autonomous AI-Driven Hedge Fund
 - AI-Powered Copilot Trading Assistant
 
-## Community
 
-- X: https://x.com/aibrokers_xyz
-- Discord: https://discord.gg/zQpKw6eeQu
-- Media Kit: https://drive.google.com/drive/folders/1SKjgkHd0j-iClgCxsuVcYfHyxB-cvqhI?usp=sharing
-
----
-
-- Schema Inspired: https://github.com/virattt/ai-hedge-fund
 
 
 ## Challenges/Task
@@ -406,17 +409,19 @@ By addressing these areas, the project can attract developers of varying skill l
 
 
 
+
+
+
+## Community
+
+- X: https://x.com/aibrokers_xyz
+- Discord: https://discord.gg/zQpKw6eeQu
+- Media Kit: https://drive.google.com/drive/folders/1SKjgkHd0j-iClgCxsuVcYfHyxB-cvqhI?usp=sharing
+
+---
+
+- Schema Inspired: https://github.com/virattt/ai-hedge-fund
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Configuration
-
-### Analysis Weights
-
-You can customize the weights of different analysis components in the portfolio management decision-making process. These weights are defined in `src/config/analysis_weights.py`:
-
-- `TECHNICAL_ANALYSIS_WEIGHT`: Weight given to technical analysis (default: 25%)
-- `SENTIMENT_ANALYSIS_WEIGHT`: Weight given to sentiment analysis (default: 10%)
-
-To modify these weights, simply update the values in the configuration file according to your trading strategy preferences.
