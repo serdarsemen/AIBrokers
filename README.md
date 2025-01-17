@@ -149,6 +149,7 @@ If you don't see a version number, try closing and reopening your terminal.
 4. Install dependencies:
 
 ```bash
+cd AIBrokers
 poetry install
 ```
 
