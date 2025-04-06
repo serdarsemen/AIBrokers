@@ -1,11 +1,10 @@
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai.chat_models import ChatOpenAI
 from config.analysis_weights import (
     TECHNICAL_ANALYSIS_WEIGHT,
     SENTIMENT_ANALYSIS_WEIGHT,
 )
-
+from config.llm_config import get_llm
 from agents.state import AgentState, show_agent_reasoning
 import os
 from dotenv import load_dotenv
@@ -53,17 +52,17 @@ def portfolio_management_agent(state: AgentState):
                 1. Technical Analysis ({TECHNICAL_ANALYSIS_WEIGHT}% weight)
                    - Secondary confirmation
                    - Helps with entry/exit timing
-                
+
                 2. Sentiment Analysis ({SENTIMENT_ANALYSIS_WEIGHT}% weight)
                    - Final consideration
                    - Can influence sizing within risk limits
-                
+
                 The decision process should be:
                 1. First check risk management constraints
                 2. Use technical analysis for timing
                 3. Consider sentiment for final adjustment
                 Provide the following in your output:
-                - "action": "long" | "short" 
+                - "action": "long" | "short"
                 - "volatility": <volatility from Risk manager>
                 - "stop loss" : <stop loss from Risk Management>
                 - "take profit" : <take profit from Risk Management>
@@ -87,17 +86,17 @@ def portfolio_management_agent(state: AgentState):
 
                 Here is the current portfolio:
                 Portfolio:
-                : 
+                :
                 | Cash         | {portfolio_cash}     |
                 |---------     |---------|
-                | Leverage     | {portfolio_leverage} | 
+                | Leverage     | {portfolio_leverage} |
                 |---------     |---------|
-                | Risk     | {portfolio_risk} | 
-                
-                Add these points to reasoning: 
+                | Risk     | {portfolio_risk} |
+
+                Add these points to reasoning:
                 - Stop Loss and Take profit values based on cryptocurrency volatility and leverage and the leverage
-                - Quantity value based on risk 
-                
+                - Quantity value based on risk
+
                 ALWAYS format them in markdown tables.
                 Table format example:
                 | Column1 | Column2 | Column3 |
@@ -105,8 +104,8 @@ def portfolio_management_agent(state: AgentState):
                 | data1   | data2   | data3   |
 
                 Never use bullet points or numbered lists for data presentation.
-                
-                Only include the Portfolio, action, quantity, volatility, stop loss, reasoning, confidence, and agent_signals in your output as response. 
+
+                Only include the Portfolio, action, quantity, volatility, stop loss, reasoning, confidence, and agent_signals in your output as response.
                 Just for reasoning, Use bullet points to separate main ideas
                 Use percentage to represent the confidence
                 Remember, the action must be either long, short.
@@ -126,10 +125,20 @@ def portfolio_management_agent(state: AgentState):
             "portfolio_risk": f"{portfolio['risk']:.2f}",
         }
     )
-    # Invoke the LLM
-    llm = ChatOpenAI(
-        openai_api_key=OPENAI_API_KEY, temperature=0.3, model="gpt-4o-mini"
-    )
+    # Get the LLM (can be configured via environment variable or parameter)
+    llm_provider = os.getenv("LLM_PROVIDER", "openai")  # or "azure"
+    llm = get_llm(provider=llm_provider, temperature=0.3)
+
+    # Generate the prompt and invoke the LLM
+    prompt = template.invoke({
+        "technical_message": technical_message.content,
+        "sentiment_message": sentiment_message.content,
+        "risk_message": risk_message.content,
+        "portfolio_cash": f"{portfolio['cash']:.2f}",
+        "portfolio_leverage": f"{portfolio['leverage']:.2f}",
+        "portfolio_risk": f"{portfolio['risk']:.2f}",
+    })
+
     result = llm.invoke(prompt)
 
     # Create the portfolio management message

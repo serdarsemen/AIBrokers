@@ -20,7 +20,7 @@ Note: the system simulates trading decisions, it does not actually trade.
 ## Prerequisites
 
 - Python 3.9 or higher (Python 2.x is not supported)
-- OpenAI API key with access to GPT-4
+- OpenAI API key with access to GPT-4 OR Azure OpenAI API access
 - Poetry package manager
 
 ### Setting up Python 3.9+
@@ -59,6 +59,25 @@ Windows:
 
 ```powershell
 python --version
+```
+
+### Setting up Azure OpenAI
+
+1. Create an Azure OpenAI resource in the Azure Portal
+2. Deploy your desired model (e.g., GPT-4)
+3. Copy your API key, endpoint, and deployment name
+4. Update your `.env` file with Azure OpenAI credentials:
+
+```bash
+AZURE_OPENAI_API_KEY="your-api-key"
+AZURE_OPENAI_ENDPOINT="https://your-resource.openai.azure.com"
+AZURE_OPENAI_DEPLOYMENT_NAME="your-deployment-name"
+AZURE_OPENAI_API_VERSION="2024-02-15-preview"
+```
+
+To use Azure OpenAI instead of OpenAI, set the environment variable:
+```bash
+LLM_PROVIDER=azure
 ```
 
 ### Switching Python Versions
@@ -161,6 +180,44 @@ cp .env.example .env
 # Edit the .env file with your API keys using your preferred editor
 ```
 
+## LLM Provider Setup
+
+The system supports multiple LLM providers. Choose and configure one of the following:
+
+### OpenAI
+1. Get your API key from https://platform.openai.com/
+2. Add to `.env`:
+```bash
+OPENAI_API_KEY="your-api-key"
+```
+
+### Azure OpenAI
+1. Create an Azure OpenAI resource
+2. Deploy your model
+3. Add to `.env`:
+```bash
+AZURE_OPENAI_API_KEY="your-api-key"
+AZURE_OPENAI_ENDPOINT="https://your-resource.openai.azure.com"
+AZURE_OPENAI_DEPLOYMENT_NAME="your-deployment-name"
+AZURE_OPENAI_API_VERSION="2024-02-15-preview"
+```
+
+### Groq
+1. Get your API key from https://console.groq.com
+2. Add to `.env`:
+```bash
+GROQ_API_KEY="your-groq-api-key"
+```
+
+### Google Gemini
+1. Get your API key from https://makersuite.google.com/app/apikey
+2. Add to `.env`:
+```bash
+GOOGLE_API_KEY="your-google-api-key"
+```
+
+When running the application, you'll be prompted to select your preferred LLM provider.
+
 ## Common Issues
 
 ### Python Version Error
@@ -206,7 +263,7 @@ poetry run python src/main.py --crypto BTC --show-reasoning
 You can optionally specify the start and end dates to make decisions for a specific time period.
 
 ```bash
-poetry run python src/main.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01 
+poetry run python src/main.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01
 # Or python src/main.py --crypto BTC --start-date 2024-01-01 --end-date 2024-03-01
 ```
 You can customize your balances, leverage and risk for each trade for your portfolio
@@ -298,110 +355,110 @@ Here’s a structured **to-do list** to request contributions from the community
 ### **1\. Core System Architecture**
 
 *   **Define and document APIs** for communication between agents (e.g., Trader Behavior Agent ↔ Fund Manager Agent).
-    
+
 *   **Implement agent orchestration**: Develop a modular framework to coordinate multiple agents effectively.
-    
+
 *   **Set up a backtesting environment** for simulated trading strategies to validate AI decisions.
-    
+
 
 ### **2\. Trader Behavior Agent**
 
 *   Build a scraper to gather **on-chain trader behavior data** (e.g., wallet actions, trading volume).
-    
+
 *   Implement **anomaly detection** for unusual trading patterns.
-    
+
 *   Develop tools for **visualizing trader behavior trends**.
-    
+
 
 ### **3\. Quant Agent**
 
 *   Implement advanced indicators (e.g., **MACD**, **RSI**, **Bollinger Bands**, **Ichimoku Cloud**).
-    
+
 *   Create a **signal combination engine** for multi-indicator strategies.
-    
+
 *   Integrate with live and historical price data APIs (e.g., Binance, Kraken).
-    
+
 
 ### **4\. Sentiment Agent**
 
 *   Develop a **social media sentiment analyzer** using NLP (Twitter, Reddit, Telegram, etc.).
-    
+
 *   Incorporate on-chain data for **community sentiment trends** (e.g., token transfers).
-    
+
 *   Build a dashboard for **sentiment visualization** with real-time updates.
-    
+
 
 ### **5\. Fundamental Agent**
 
 *   Design a scoring model for evaluating tokenomics (e.g., **inflation rate**, **supply schedule**).
-    
+
 *   Analyze crypto ecosystems and detect **growth opportunities**.
-    
+
 *   Build tools for **tracking developer activity** on GitHub and other repositories.
-    
+
 
 ### **6\. Technical Analyst Agent**
 
 *   Develop AI models to predict price trends based on historical chart patterns.
-    
+
 *   Implement multi-timeframe analysis (e.g., **15m, 1H, daily** charts).
-    
+
 *   Automate **entry and exit signal generation** based on technical indicators.
-    
+
 
 ### **7\. Risk Manager**
 
 *   Build a module to calculate **portfolio exposure** and suggest optimal rebalancing.
-    
+
 *   Develop algorithms for **stop-loss and take-profit management**.
-    
+
 *   Implement a **stress testing** tool for simulating market crashes.
-    
+
 
 ### **8\. Fund Manager Agent**
 
 *   Create a **decision-making engine** to rank and execute agent recommendations.
-    
+
 *   Develop an order simulation system (e.g., buy/sell orders with slippage considerations).
-    
+
 *   Allow customizable strategies: e.g., risk tolerance, aggressive vs. conservative.
-    
+
 
 ### **9\. Infrastructure & Scalability**
 
 *   Migrate data pipelines to a scalable **distributed system** (e.g., Kafka, RabbitMQ).
-    
+
 *   Ensure agent modularity to support **plug-and-play integration**.
-    
+
 *   Containerize the framework using **Docker** for easy deployment.
-    
+
 
 ### **10\. Community Contributions**
 
 *   Build **detailed contributing guidelines** (e.g., coding standards, testing requirements).
-    
+
 *   Open a list of **Good First Issues** for new contributors.
-    
+
 *   Encourage building **plugins or extensions** for specific strategies.
-    
+
 
 ### **11\. Challenges for the Community**
 
 *   How can AI agents detect **manipulated or wash-traded tokens**?
-    
+
 *   What’s the best way to optimize **multi-agent collaboration** for decision-making?
-    
+
 *   Can reinforcement learning improve trading strategy performance over time?
-    
+
 *   How do we handle **low-liquidity markets** effectively?
-    
+
 
 ### **12\. Documentation and Knowledge Sharing**
 
 *   Write **clear documentation** for each agent, its role, and integration process.
-    
+
 *   Publish examples of **successful backtests** to showcase the system's potential.
-    
+
 *   Create video tutorials to onboard developers.
 
 ### **13\. Data Brokers**

@@ -1,16 +1,72 @@
 from langchain_core.messages import HumanMessage
 from langgraph.graph import END, StateGraph
-
+import os
 from agents.market_data import market_data_agent, check_data_valid
 from agents.portfolio_manager import portfolio_management_agent
 from agents.technicals import technical_analyst_agent
 from agents.risk_manager import risk_management_agent
 from agents.sentiment import sentiment_agent
 from agents.state import AgentState
-
 import argparse
 from datetime import datetime
 
+def select_llm_provider():
+    """Display menu for LLM provider selection and return choice"""
+    while True:
+        print("\nSelect LLM Provider:")
+        print("1. OpenAI")
+        print("2. Azure OpenAI")
+        print("3. Groq")
+        print("4. Google Gemini")
+
+        choice = input("Enter your choice (1-4): ").strip()
+
+        if choice == "1":
+            if not os.getenv("OPENAI_API_KEY"):
+                print("\nError: OPENAI_API_KEY not found in environment variables.")
+                print("Please set it in your .env file and try again.")
+                continue
+            os.environ["LLM_PROVIDER"] = "openai"
+            return "openai"
+
+        elif choice == "2":
+            required_vars = [
+                "AZURE_OPENAI_API_KEY",
+                "AZURE_OPENAI_ENDPOINT",
+                "AZURE_OPENAI_DEPLOYMENT_NAME",
+                "AZURE_OPENAI_API_VERSION"
+            ]
+
+            missing_vars = [var for var in required_vars if not os.getenv(var)]
+
+            if missing_vars:
+                print("\nError: Missing required Azure OpenAI environment variables:")
+                for var in missing_vars:
+                    print(f"- {var}")
+                print("Please set them in your .env file and try again.")
+                continue
+
+            os.environ["LLM_PROVIDER"] = "azure"
+            return "azure"
+
+        elif choice == "3":
+            if not os.getenv("GROQ_API_KEY"):
+                print("\nError: GROQ_API_KEY not found in environment variables.")
+                print("Please set it in your .env file and try again.")
+                continue
+            os.environ["LLM_PROVIDER"] = "groq"
+            return "groq"
+
+        elif choice == "4":
+            if not os.getenv("GOOGLE_API_KEY"):
+                print("\nError: GOOGLE_API_KEY not found in environment variables.")
+                print("Please set it in your .env file and try again.")
+                continue
+            os.environ["LLM_PROVIDER"] = "gemini"
+            return "gemini"
+
+        else:
+            print("\nInvalid choice. Please select 1-4.")
 
 ##### Run the AIBrokers #####
 def run_hedge_fund(
@@ -82,8 +138,14 @@ workflow.add_edge("portfolio_management_agent", END)
 
 app = workflow.compile()
 
-# Add this at the bottom of the file
 if __name__ == "__main__":
+    print("\nWelcome to AIBrokers Trading System")
+    print("===================================")
+
+    # Select LLM provider before parsing arguments
+    selected_provider = select_llm_provider()
+    print(f"\nUsing {selected_provider.upper()} as LLM provider")
+
     parser = argparse.ArgumentParser(description="Run the hedge fund trading system")
     parser.add_argument("--crypto", type=str, required=True, help="Stock crypto symbol")
     parser.add_argument(
@@ -142,5 +204,4 @@ if __name__ == "__main__":
         show_reasoning=args.show_reasoning,
     )
     print("\nFinal Result:")
-
     print(result)

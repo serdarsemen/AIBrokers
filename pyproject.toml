@@ -11,11 +11,16 @@ packages = [
 python = "^3.9"
 langchain = "0.3.0"
 langchain-openai = "0.2.11"
+langchain-google-genai = "^0.0.11"
+langchain-groq = "^0.1.5"
 langgraph = "0.2.56"
 pandas = "^2.1.0"
 numpy = "^1.24.0"
 python-dotenv = "^1.0.0"
 matplotlib = "^3.9.2"
+openai = "^1.56.2"
+azure-identity = "^1.15.0"
+azure-core = "^1.30.0"
 
 
 [tool.poetry.group.dev.dependencies]
