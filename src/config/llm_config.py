@@ -27,12 +27,12 @@ def get_llm(provider="openai", temperature=0.3, model="gpt-4"):
     elif provider == "groq":
         return ChatGroq(
             api_key=os.getenv("GROQ_API_KEY"),
-            model_name="mixtral-8x7b-32768",  # or "llama2-70b-4096"
+            model_name=os.getenv("GROQ_MODEL_NAME"),
             temperature=temperature,
         )
     elif provider == "gemini":
         return ChatGoogleGenerativeAI(
-            model="gemini-pro",
+            model=os.getenv("GOOGLE_MODEL_NAME"),
             google_api_key=os.getenv("GOOGLE_API_KEY"),
             temperature=temperature,
         )

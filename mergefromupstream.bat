@@ -1,4 +1,4 @@
-git remote add upstream https://github.com/virattt/ai-hedge-fund
+git remote add upstream https://github.com/AI-Brokers/AIBrokers
 git fetch upstream
 git checkout main
 git merge upstream/main
