@@ -47,8 +47,8 @@ class Backtester:
 
             decision = json.loads(agent_output)
             return decision["action"], decision["quantity"]
-        except:
-            print(f"Error parsing action: {agent_output}")
+        except (json.JSONDecodeError, KeyError, TypeError) as e:
+            print(f"Error parsing action: {agent_output}, Error: {e}")
             return "hold", 0
 
     def execute_trade(self, action, quantity, current_price):
